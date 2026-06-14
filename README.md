@@ -28,12 +28,14 @@ sudo apt install dnsutils git
 Para descargar y ejecutar esta herramienta en tu terminal, utiliza los siguientes comandos:
 
 ```bash
-# pkg install dnsutils curl git -y && git clone https://github.com && cd fisgon && chmod +x dnsinspect.sh
-
-2.DESISTALACION
-# rm -rf ~/fisgon
-
+pkg install dnsutils curl git -y && git clone https://github.com && cd fisgon && chmod +x dnsinspect.sh
 ```
+2.DESISTALACION
+```bash
+rm -rf ~/fisgon
+```
+
+
 
 ## Estructura del Diccionario de Páginas Incluido (573 Sitios)
 
