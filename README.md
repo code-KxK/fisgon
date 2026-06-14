@@ -28,17 +28,8 @@ sudo apt install dnsutils git
 Para descargar y ejecutar esta herramienta en tu terminal, utiliza los siguientes comandos:
 
 ```bash
-# 1. Clonar el repositorio 
-git clone https://github.com/eoeg2011/fisgon
+# 1.pkg install dnsutils curl git -y && git clone https://github.com && cd fisgon && chmod +x dnsinspect.sh
 
-# 2. Entrar a la carpeta
-cd fisgon
-
-# 3. Dar permisos de ejecución al script
-chmod +x dnsinspect.sh
-
-# 4. Lanzar la auditoría apuntando a un dominio o IP
-./dnsinspect.sh senado.de.mi.pais.com "ejemplo"
 ```
 
 ## Estructura del Diccionario de Páginas Incluido (573 Sitios)
