@@ -32,7 +32,7 @@ Para descargar y ejecutar esta herramienta en tu terminal, utiliza los siguiente
 git clone https://github.com/eoeg2011/fisgon
 
 # 2. Entrar a la carpeta
-cd dnsinspect
+cd fisgon
 
 # 3. Dar permisos de ejecución al script
 chmod +x dnsinspect.sh
