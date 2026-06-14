@@ -28,7 +28,10 @@ sudo apt install dnsutils git
 Para descargar y ejecutar esta herramienta en tu terminal, utiliza los siguientes comandos:
 
 ```bash
-# 1.pkg install dnsutils curl git -y && git clone https://github.com && cd fisgon && chmod +x dnsinspect.sh
+# pkg install dnsutils curl git -y && git clone https://github.com && cd fisgon && chmod +x dnsinspect.sh
+
+2.DESISTALACION
+# rm -rf ~/fisgon
 
 ```
 
