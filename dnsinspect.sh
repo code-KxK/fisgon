@@ -17,8 +17,8 @@ dnscheck_categorias() {
     # ENCABEZADO PERSONALIZADO
     # =================================================================
     echo -e "\e[1;33m========================================\e[0m"
-    echo -e "\e[1;36m       FISGON by KxK-code\e[0m"
-    echo -e "\e[1;36m       https://github.com/KxK-code\e[0m"
+    echo -e "\e[1;36m       FISGON by code-KxK\e[0m"
+    echo -e "\e[1;36m       https://github.com/code-KxK\e[0m"
     echo -e "\e[1;33m========================================\e[0m\n"
     target_dns="$1"
 
@@ -75,7 +75,7 @@ dnscheck_categorias() {
     # 5. Impresión de estadísticas finales
     total=$((si_count + no_count))
     echo -e "\n\e[1;33m========================================\e[0m"
-    echo -e "\e[1;36m       FISGON by KxK-code\e[0m"
+    echo -e "\e[1;36m       FISGON by code-KxK\e[0m"
     echo -e "\e[1;32mPÁGINAS VISITADAS ENCONTRADAS:\e[0m $si_count"
     echo -e "\e[1;31mPÁGINAS NO VISITADAS:\e[0m $no_count"
     echo -e "\e[1;34mTOTAL DE SITIOS AUDITADOS:\e[0m $total"
