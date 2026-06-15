@@ -56,9 +56,10 @@ rm -rf ~/fisgon
 ```
 ## 🚀 Instalación y Uso de Comando Global
 
-Para poder ejecutar `fisgon` desde cualquier ubicación de tu terminal sin importar en qué carpeta estés parado, sigue estos sencillos pasos:
+Para poder ejecutar `fisgon` desde cualquier ubicación de tu terminal sin importar en qué carpeta estés parado, esto creara un comando corto para ejecutar facilmente la herramienta por ejemplo " fisgon senado.ejemplo.com "
+sigue estos sencillos pasos:
 
-### 1. Clonar el repositorio e instalar
+### 1. Clonar el repositorio e instalar con comando corto
 ```bash
 git clone https://github.com/code-KxK/fisgon.git
 cd fisgon
@@ -66,7 +67,16 @@ chmod +x install.sh
 ./install.sh
 ```
 
-## Estructura del Diccionario de Páginas Incluido (573 Sitios)
+## Estructura del Diccionario de Páginas Incluido (573 Sitios) este se descarga automaticamente puedes editarlo a tu gusto agregar o quitar las paginas que gustes dentro de la carpeta fisgon usa nano pagui 
+
+```bash
+cd fisgon
+```
+```bash
+nano paginas.txt
+```
+Al terminar de editar solo preciona CTRL + O  para guardar luego "ENTER" para aceptar, despues CTRL + X para cerrar el editor
+
 
 El script procesa de forma nativa los siguientes objetivos estructurados mediante etiquetas de comentarios:
 
@@ -75,12 +85,14 @@ El script procesa de forma nativa los siguientes objetivos estructurados mediant
 google.com
 yahoo.com
 google.com.mx
+...
 
 #REDES SOCIALES
 whatsapp.com
 x.com
 tiktok.com
 reddit.com
+...
 
 #STREAMING
 youtube.com
@@ -88,15 +100,16 @@ netflix.com
 spotify.com
 disneyplus.com
 max.com
-
+...
 # CONTENIDO ADULTOS
 xnxx.com
 pornhub.com
 xvideos.com
 xhamster.com
+...
 
-# SECCIÓN DE CONTROL TRAMPA
-paginamexicanaquenoexisteabsolutamenteenningunlado.com (SOLO PARA VER SI ESTA FUNCIONADO NO EXISTE ASI QUE NUNCA DEVERIA PONERLA EN VERDE)
+# SECCIÓN DE PRUEBA (SOLO PARA VER SI ESTA FUNCIONADO NO EXISTE ASI QUE NUNCA DEVERIA PONERLA EN VERDE)
+paginamexicanaquenoexisteabsolutamenteenningunlado.com 
 ...............
 ```
 
