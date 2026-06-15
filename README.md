@@ -1,5 +1,5 @@
 # FISGON (DNSInspect)
-Alguna vez  te dio curosidad de saves que paginas uasan en por ejemplo el senado camara de diputados pues esta es una pequeña herramienta que te dira eso no es perfecta ni hackea nada pero en general funciona muy bien con la mayoria de paginas 
+Alguna vez  te dio curosidad de saber que paginas uasan en por ejemplo el senado camara de diputados pues esta es una pequeña herramienta que te dira eso no es perfecta ni hackea nada pero en general funciona muy bien con la mayoria de paginas 
 
 explicacion aveces las pagina como cenado.mi.pais.com usan su dns en el mismo servidor donde comparten la red del lugar es hay cuando ase una pequeña comprobacion que no hackea nada solo le dice a su dns disculpa tines guardada estas paginas en tu cache por que alguien la pidio toma encuenta que no te dice quien ni que iso solo si la pagina la an usado y tambien igual si algun trabajador que estuviera conectado ala red pudo usarlas pero pues no todas entoces hablamos de que si en una dependencia de tu ciudad pais estan pidiendo paginas como de casinos o xxx quiere decir que no tods estan trabajando.
 
