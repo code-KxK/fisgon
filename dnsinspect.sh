@@ -1,14 +1,16 @@
-_dnscheck_categorias() {
+#!/bin/bash
+
+dnscheck_categorias() {
     # 1. Validación de argumentos
-    if [ -z "$1" ]; then 
-        echo "Uso: dnscheck [pagina.com o IP]"
-        return
+    if [ -z "$1" ]; then
+        echo "Uso: ./dnsinspect.sh [pagina.com o IP]"
+        exit 1
     fi
 
     # 2. Validación del archivo de páginas
-    if [ ! -f ~/paginas.txt ]; then 
+    if [ ! -f ~/paginas.txt ]; then
         echo "Error: Crea primero el archivo ~/paginas.txt"
-        return
+        exit 1
     fi
 
     target_dns="$1"
@@ -17,11 +19,11 @@ _dnscheck_categorias() {
     if [[ ! "$1" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
         echo -e "\e[1;34m[FOCA AUTOMATICA]\e[0m Buscando DNS para: $1"
         found=$(dig +short NS "$1" | head -n 1)
-        
+
         if [ -z "$found" ]; then
             found=$(dig "$1" | grep -A 1 "AUTHORITY SECTION" | tail -n 1 | awk '{print $5}')
         fi
-        
+
         if [ ! -z "$found" ]; then
             ip_found=$(dig +short "$found" | head -n 1)
             if [ ! -z "$ip_found" ]; then
@@ -41,10 +43,10 @@ _dnscheck_categorias() {
 
     # 4. Bucle para leer el archivo ~/paginas.txt línea por línea
     while IFS= read -r line || [ -n "$line" ]; do
-        if [[ -z "$line" ]]; then 
+        if [[ -z "$line" ]]; then
             continue
         fi
-        
+
         # Si es un comentario/categoría, lo imprime bonito
         if [[ "$line" =~ ^# ]]; then
             echo -e "\n\e[1;36m==== $line ====\e[0m"
@@ -53,7 +55,7 @@ _dnscheck_categorias() {
 
         # Consulta DNS no recursiva
         res=$(dig @"$target_dns" "$line" +norecurse)
-        
+
         if echo "$res" | grep -q "ANSWER SECTION" && ! echo "$res" | grep -q "status: SERVFAIL"; then
             echo -e "\e[1;32m[SI VISITADA]\e[0m $line"
             ((si_count++))
@@ -70,3 +72,7 @@ _dnscheck_categorias() {
     echo -e "\e[1;31mPÁGINAS NO VISITADAS:\e[0m $no_count"
     echo -e "\e[1;34mTOTAL DE SITIOS AUDITADOS:\e[0m $total"
     echo -e "\e[1;33m========================================\e[0m\n"
+}
+
+# Ejecutar la función pasando el argumento del script
+dnscheck_categorias "$1"
