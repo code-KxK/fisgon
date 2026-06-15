@@ -64,7 +64,7 @@ git clone [https://github.com/code-KxK/fisgon.git](https://github.com/code-KxK/f
 cd fisgon
 chmod +x install.sh
 ./install.sh
-
+```
 
 ## Estructura del Diccionario de Páginas Incluido (573 Sitios)
 
