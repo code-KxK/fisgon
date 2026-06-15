@@ -60,7 +60,7 @@ Para poder ejecutar `fisgon` desde cualquier ubicación de tu terminal sin impor
 
 ### 1. Clonar el repositorio e instalar
 ```bash
-git clone [https://github.com/code-KxK/fisgon.git](https://github.com/code-KxK/fisgon.git)
+git clone https://github.com/code-KxK/fisgon.git
 cd fisgon
 chmod +x install.sh
 ./install.sh
