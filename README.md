@@ -54,7 +54,16 @@ DESISTALACION
 ```bash
 rm -rf ~/fisgon
 ```
+## 🚀 Instalación y Uso de Comando Global
 
+Para poder ejecutar `fisgon` desde cualquier ubicación de tu terminal sin importar en qué carpeta estés parado, sigue estos sencillos pasos:
+
+### 1. Clonar el repositorio e instalar
+```bash
+git clone [https://github.com/code-KxK/fisgon.git](https://github.com/code-KxK/fisgon.git)
+cd fisgon
+chmod +x install.sh
+./install.sh
 
 
 ## Estructura del Diccionario de Páginas Incluido (573 Sitios)
