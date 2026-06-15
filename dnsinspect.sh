@@ -1,60 +1,62 @@
 #!/bin/bash
 
 # Configuración automática del repositorio
-# Obtiene el usuario y repositorio actual de los metadatos de Git de forma dinámica
 if [ -d .git ]; then
     URL_REMOTO=$(git config --get remote.origin.url)
     USUARIO_GITHUB=$(echo "$URL_REMOTO" | sed -E 's|https://github.com([^/]+)/.*|\1|')
     REPOSITORIO=$(echo "$URL_REMOTO" | sed -E 's|https://github.com[^/]+/([^.]+).*|\1|')
 else
-    # Si no se clona con git, usa estos valores por defecto (CÁMBIALOS POR LOS TUYOS)
-    USUARIO_GITHUB="TuUsuarioDeGithub"
-    REPOSITORIO="dnsinspect"
+    USUARIO_GITHUB="eoeg2011"
+    REPOSITORIO="fisgon"
 fi
 
 URL_PAGINAS="https://raw.githubusercontent.com/eoeg2011/fisgon/main/paginas.txt"
-
 ARCHIVO_LOCAL="$HOME/paginas.txt"
 
-# Verificar que existan las herramientas necesarias
+# Verificar herramientas necesarias
 if ! command -v dig &> /dev/null; then
     echo "Error: Requieres 'dig'. Instálalo con: pkg install dnsutils"
     exit 1
 fi
 
 if ! command -v curl &> /dev/null; then
-    echo "Error: Requieres 'curl' para descargar la lista. Instálalo con: pkg install curl"
+    echo "Error: Requieres 'curl'. Instálalo con: pkg install curl"
     exit 1
 fi
 
-# Descarga automática si el archivo local 'paginas.txt' no existe
+# Descarga automática si no existe
 if [ ! -f "$ARCHIVO_LOCAL" ]; then
-    echo -e "\e[1;33m[INSTALACIÓN]\e[0m No se encontró 'paginas.txt'. Descargando lista desde tu GitHub..."
+    echo -e "\e[1;33m[INSTALACIÓN]\e[0m No se encontró 'paginas.txt'. Descargando lista..."
     curl -s -f -o "$ARCHIVO_LOCAL" "$URL_PAGINAS"
     
     if [ $? -ne 0 ] || [ ! -s "$ARCHIVO_LOCAL" ]; then
-        echo -e "\e[1;31m[ERROR]\e[0m No se pudo descargar el archivo desde GitHub."
-        echo "Verifica que el repositorio sea público y que 'paginas.txt' esté en la rama main."
+        echo -e "\e[1;31m[ERROR]\e[0m No se pudo descargar el archivo."
         rm -f "$ARCHIVO_LOCAL"
         exit 1
     fi
-    echo -e "\e[1;32m[ÉXITO]\e[0m Lista de 573 páginas descargada e instalada en tu sistema.\n"
+    echo -e "\e[1;32m[ÉXITO]\e[0m Lista descargada instalada.\n"
 fi
+
+# Limpieza rápida de posibles caracteres corruptos (\r de Windows o espacios raros)
+sed -i 's/\r//g; s|://||g' "$ARCHIVO_LOCAL"
 
 if [ -z "$1" ]; then 
     echo "Uso: ./dnsinspect.sh [pagina.com o IP]"
     exit 1
 fi
 
-target_dns="$1"
-if [[ ! "$1" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then 
-    echo -e "\e[1;34m[AUDITORÍA AUTOMÁTICA]\e[0m Buscando servidor de nombres para: $1"
-    found=$(dig +short NS $1 | head -n 1)
+# Limpiar el argumento de entrada por si meten http:// o diagonales
+TARGET_INPUT=$(echo "$1" | sed -E 's|https?://||; s|/.*||')
+
+target_dns="$TARGET_INPUT"
+if [[ ! "$TARGET_INPUT" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then 
+    echo -e "\e[1;34m[AUDITORÍA AUTOMÁTICA]\e[0m Buscando servidor de nombres para: $TARGET_INPUT"
+    found=$(dig +short NS "$TARGET_INPUT" | head -n 1)
     if [ -z "$found" ]; then 
-        found=$(dig $1 | grep -A 1 "AUTHORITY SECTION" | tail -n 1 | awk "{print \$5}")
+        found=$(dig "$TARGET_INPUT" | grep -A 1 "AUTHORITY SECTION" | tail -n 1 | awk '{print $5}')
     fi
     if [ ! -z "$found" ]; then 
-        ip_found=$(dig +short $found | head -n 1)
+        ip_found=$(dig +short "$found" | head -n 1)
         if [ ! -z "$ip_found" ]; then 
             target_dns="$ip_found"
         else 
@@ -62,7 +64,7 @@ if [[ ! "$1" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
         fi
         echo -e "\e[1;32m[DNS ASIGNADO]:\e[0m $target_dns"
     else 
-        echo -e "\e[1;31m[ERROR]\e[0m No se pudo hallar el DNS de $1. Usando $1 directamente..."
+        echo -e "\e[1;31m[ERROR]\e[0m No se halló el DNS. Usando $TARGET_INPUT directamente..."
     fi
 fi
 
@@ -72,6 +74,9 @@ no_count=0
 
 # Procesar el archivo local línea por línea
 while IFS= read -r line || [ -n "$line" ]; do
+    # Limpiar espacios en blanco o saltos de línea raros en la variable
+    line=$(echo "$line" | tr -d '\r' | xargs)
+    
     if [[ -z "$line" ]]; then 
         continue
     fi
@@ -79,7 +84,13 @@ while IFS= read -r line || [ -n "$line" ]; do
         echo -e "\n\e[1;36m==== $line ====\e[0m"
         continue
     fi
-    res=$(dig @$target_dns $line +norecurse)
+    
+    # EXPLICACIÓN DE CAMBIOS AQUÍ:
+    # +time=1 -> Espera máximo 1 segundo de respuesta global
+    # +tries=1 -> No reintentes si falla, pasa rápido
+    # +tries=1 +timeout=1 reduce drásticamente el congelamiento si el DNS descarta paquetes
+    res=$(dig @"$target_dns" "$line" +norecurse +time=1 +tries=1 2>/dev/null)
+    
     if echo "$res" | grep -q "ANSWER SECTION" && ! echo "$res" | grep -q "status: SERVFAIL"; then
         echo -e "\e[1;32m[SI VISITADA]\e[0m $line"
         ((si_count++))
@@ -89,7 +100,7 @@ while IFS= read -r line || [ -n "$line" ]; do
     fi
 done < "$ARCHIVO_LOCAL"
 
-total=$(($si_count + $no_count))
+total=$((si_count + no_count))
 echo -e "\n\e[1;33m========================================\e[0m"
 echo -e "\e[1;32mPÁGINAS VISITADAS ENCONTRADAS:\e[0m $si_count"
 echo -e "\e[1;31mPÁGINAS NO VISITADAS:\e[0m $no_count"
