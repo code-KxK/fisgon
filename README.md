@@ -36,7 +36,7 @@ pkg install dnsutils curl git -y
 ```
 2.INSTALACION HERRAMIENTA
 ```bash
-git clone https://https://github.com/KxK-code/fisgon
+git clone https://github.com/KxK-code/fisgon
 ```
 3.ACCEDER ALA CARPETA DE LA HERRAMIENTA DESCARGADA
 ```bash
