@@ -12,7 +12,13 @@ dnscheck_categorias() {
         echo "Error: Crea primero el archivo ~/paginas.txt"
         exit 1
     fi
-
+    
+    # =================================================================
+    # ENCABEZADO PERSONALIZADO
+    # =================================================================
+    echo -e "\e[1;33m========================================\e[0m"
+    echo -e "\e[1;36m       FISGON by eoeg2011\e[0m"
+    echo -e "\e[1;33m========================================\e[0m\n"
     target_dns="$1"
 
     # 3. Resolución inteligente del DNS (FOCA AUTOMÁTICA)
