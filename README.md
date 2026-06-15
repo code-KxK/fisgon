@@ -77,11 +77,13 @@ chmod +x install.sh
 ./install.sh
 ```
 
-## Estructura del Diccionario de Páginas Incluido (573 Sitios) este se descarga automaticamente puedes editarlo a tu gusto agregar o quitar las paginas que gustes dentro de la carpeta fisgon usa nano pagui 
+## Estructura del Diccionario de Páginas Incluido (573 Sitios) este se descarga automaticamente puedes editarlo a tu gusto agregar o quitar las paginas que gustes dentro de la carpeta fisgon usa nano siguiendo los siguientes pasos.
 
+Abre carpeta dela instalación 
 ```bash
 cd fisgon
 ```
+abre el archivo con nano
 ```bash
 nano paginas.txt
 ```
